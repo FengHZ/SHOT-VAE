@@ -1,16 +1,17 @@
-# Good Semi-supervised VAE Requires Tighter Evidence Lower Bound
+# SHOT-VAE: Semi-supervised Deep Generative Models With Label-awared ELBO Approximations
 
-Here is the official implementation of the model `OSPOT-VAE` in paper ["Good Semi-supervised VAE Requires Tighter Evidence“ Lower Bound"](https://openreview.net/forum?id=S1ejj64YvS).
+Here is the official implementation of the model `SHOT-VAE` in paper ["SHOT-VAE: Semi-supervised Deep Generative Models
+With Label-awared ELBO Approximations"]().
 
 ## Model Review
 
-* **One-stage SSL VAE**
+* **Smooth-ELBO**
 
-	![one-stage-vae](./image/one-stage-schematic.svg)
+	![smooth-elbo](./image/smooth-ELBO.PNG)
 
-* **Optimal Transport Estimation**
+* **Optimal Interpolation**
 
-	![optimal transport estimation](./image/optimal-transport-schematic.svg)
+	![OT](./image/optimal-interpolation.PNG)
 
 # Setup
 
@@ -78,18 +79,13 @@ For **CUDA computation**, please set the `--gpu` parameter (e.g. `--gpu "0,1"` m
 
 ### Semi-supervised Learning
 
-#### OSPOT-VAE in Cifar10 (4k) and Cifar100 (4k and 10k) [Table. 2,3]
+#### SHOT-VAE in Cifar10 (4k) and Cifar100 (4k and 10k) 
 
 Here we list several important parameters **need to be set manually** in the following table
 
 | Parameter       | Means                                                        |
 | --------------- | ------------------------------------------------------------ |
-| kbmc            | The max kl beta for continuous latent variable $z$.          |
-| akb             | The epoch to adjust kl beta (e.g. akb=200 means the kl beta for $z$ and $c$ will get their max value at the 200th epoch). |
-| cmi             | Mutual information for continuous latent variable $z$        |
-| dmi             | Mutual information for discrete latent variable $c$          |
-| apw             | The epoch to adjust posterior weight $w_{R_{z}}$             |
-| br              | If we use BCE loss in $p_{\theta}(x;z,c)$, default is False. |
+| br              | If we use BCE loss in $E_{p,q}\log p(X\vert z,y)$, default is False. |
 | annotated_ratio | The annotated ratio for dataset.                             |
 | ad              | The milestone list for adjust learning rate.                 |
 | epochs          | The total epochs in training process                         |
@@ -98,27 +94,27 @@ Here we list several important parameters **need to be set manually** in the fol
 
    ```shell
    # for wideresnet-28-2
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --br
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --br
    # for wideresnet-28-10
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --br
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --br
    ```
 
 2. For Cifar100 (4k), please use the following command
 
    ```shell
    # for wideresnet-28-2
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --akb 150 --apw 400 --annotated-ratio 0.1 --cmi 1280 --dmi 4.6 --kbmc 0.1 -ad [500,600,650] --epochs 700 --br
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 -ad [500,600,650] --epochs 700 --br
    # for wideresnet-28-10
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --akb 150 --apw 400 --annotated-ratio 0.1 --cmi 1280 --dmi 4.6 --kbmc 0.1 -ad [500,600,650] --epochs 700
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 -ad [500,600,650] --epochs 700
    ```
 
 3. For Cifar100 (10k), please use the following command
 
    ```shell
    # for wideresnet-28-2
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --akb 150 --apw 400 --annotated-ratio 0.25 --cmi 1280 --kbmc 0.1 -ad [500,600,650] --epochs 700 --br
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25 -ad [500,600,650] --epochs 700 --br
    # for wideresnet-28-10
-   python main_ospot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --akb 150 --apw 400 --annotated-ratio 0.25 --cmi 1280 --kbmc 0.1 -ad [500,600,650] --epochs 700
+   python main_shot_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25 -ad [500,600,650] --epochs 700
    ```
 
 *The performance of test dataset in training process for different dataset is listed as:*
@@ -146,54 +142,80 @@ Here we list several important parameters **need to be set manually** in the fol
 
   * *WideResNet-28-2*
 
-    ![Cifar100-WRN-28-2](./image/Cifar100-WRN-28-2.png)
+    ![Cifar100-WRN-28-2](./image/Cifar100-10K-WRN-28-2.png)
 
   * *WideResNet-28-10*
 
-	  ![Cifar100-WRN-28-10](./image/Cifar100-WRN-28-10.png)
+	  ![Cifar100-WRN-28-10](./image/Cifar100-10K-WRN-28-10.png)
 
-#### One-stage SSL  VAE in MNIST (100) and SVHN (1k) [Table.1]
+#### M2-VAE in Cifar10 (4k) and Cifar100 (4k and 10k)
+1. For Cifar10 (4k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --br
+   # for wideresnet-28-10
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --br
+   ```
+
+2. For Cifar100 (4k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 -ad [500,600,650] --epochs 700 --br
+   # for wideresnet-28-10
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 -ad [500,600,650] --epochs 700
+   ```
+
+3. For Cifar100 (10k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25 -ad [500,600,650] --epochs 700 --br
+   # for wideresnet-28-10
+   python main_M2_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25 -ad [500,600,650] --epochs 700
+   ```
+#### Only classifier in Cifar10 (4k) and Cifar100 (4k and 10k) 
+1. For Cifar10 (4k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid
+   # for wideresnet-28-10
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid 
+   ```
+
+2. For Cifar100 (4k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
+   # for wideresnet-28-10
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
+   ```
+
+3. For Cifar100 (10k), please use the following command
+
+   ```shell
+   # for wideresnet-28-2
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
+   # for wideresnet-28-10
+   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
+   ```
+#### Smooth-ELBO VAE in MNIST (100) and SVHN (1k) [Table.1]
 Use the following commands to reproduce our results
 ```
-# run One-stage SSL VAE on MNIST (100)
-python main_one_stage_vae_mnist.py -bp basepath --gpu gpuid
+# run Smooth-ELBO VAE on MNIST (100)
+python main_smooth_ELBO_mnist.py -bp basepath --gpu gpuid
 
 # run One-stage SSL VAE on SVHN (1k)
-python main_one_stage_vae_svhn.py -bp basepath --gpu gpuid
+python main_smooth_ELBO_svhn.py -bp basepath --gpu gpuid
 ```
 
-
-### Ablation Study [Table.4]
-
-* **Optimal Transport Estimation combines Encoder**
-
-  Here we use optimal transport estimation only for the representation of classification $q_{\phi}(c\vert x)$, our implementation is similar to the [Manifold Mixup Method](https://pdfs.semanticscholar.org/d4c7/b0886e4033ab8f56c0edea3a27d0bfe46c1b.pdf)[1]. 
-
-  Use the following commands to reproduce our results
-
-  ```shell
-  # cifar10 (4k)
-  python main_optimal_transport_estimation.py -bp basepath --gpu gpuid 
-  # cifar100 (10k)
-  python main_optimal_transport_estimation.py -bp basepath --gpu gpuid --dataset "Cifar100" --ar 0.25
-  # SVHN (1k)
-  python main_optimal_transport_estimation.py -bp basepath --gpu gpuid --dataset "SVHN"
-  ```
 
 ### Generative Performance [Table.5]
 
-* **Pure VAE**
-
-  Here we only use ELBO to train a pure VAE with the following commands
-
-  ```shell
-  # cifar 10
-  python main_pure_vae.py --cmi 200 --dmi 2.3 -bp basepath --gpu gpuid 
-  # cifar 100
-  python main_pure_vae.py --cmi 1280 --dmi 4.6 --ldd 100 -bp basepath --gpu gpuid 
-  ```
-
-* **Generated Examples of OSPOT-VAE**
+* **Generated Examples of SHOT-VAE**
 
   * *MNIST*
 
@@ -210,8 +232,4 @@ python main_one_stage_vae_svhn.py -bp basepath --gpu gpuid
   * *Cifar100*
 
     ![cifar100_ssl](./image/cifar100_ssl.png)
-
-## Reference
-
-[1] Verma, Vikas, et al. "Manifold mixup: Encouraging meaningful on-manifold interpolation as a regularizer." *stat* 1050 (2018): 13.
 

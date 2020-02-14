@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="de65b481-d9ae-4833-b4de-e4625b4371be" name="Default Changelist" comment="" />
+    <list default="true" id="de65b481-d9ae-4833-b4de-e4625b4371be" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar10-4K-WRN-28-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar10-4K-WRN-28-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar100-4k-WRN-28-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/Cifar100-4k-WRN-28-10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar100-4k-WRN-28-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/Cifar100-4k-WRN-28-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar100-WRN-28-10.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Cifar100-WRN-28-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classifier_model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/classifier_model/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classifier_model/wideresnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/classifier_model/wideresnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/Cifar10-4K-WRN-28-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/image/Cifar10-4K-WRN-28-10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/Cifar10-4K-WRN-28-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/image/Cifar10-4K-WRN-28-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/Cifar100-4k-WRN-28-10.png" beforeDir="false" afterPath="$PROJECT_DIR$/image/Cifar100-4k-WRN-28-10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/Cifar100-4k-WRN-28-2.png" beforeDir="false" afterPath="$PROJECT_DIR$/image/Cifar100-4k-WRN-28-2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/criterion.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/criterion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dataloader_one_stage_vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/dataloader_one_stage_vae.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_one_stage_vae_mnist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_one_stage_vae_svhn.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_optimal_transport_estimation-mnist.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_optimal_transport_estimation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_ospot_vae.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_pure_vae.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_vae.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one-stage-schematic.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage/utils/dataloaders.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage/vae/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage_vae_model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage_vae_model/mnist_vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/smooth_vae_model/mnist_vae.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/one_stage_vae_model/svhn_vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/smooth_vae_model/svhn_vae.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/optimal-transport-schematic.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/smooth_vae_model/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/densenet.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/densenet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/mlpvae.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/mlpvae.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/preactresnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/preactresnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/vae.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/vae.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ospot_vae_model/wideresnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/shot_vae_model/wideresnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/paper_diff.pdf" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +65,101 @@
     <expand />
     <select />
   </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_shot_vae.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2610">
+              <caret line="159" column="33" lean-forward="true" selection-start-line="159" selection-start-column="33" selection-end-line="159" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="150">
+                <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_classifier.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1380">
+              <caret line="46" column="43" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main_M2_vae.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>evaluate_in</find>
+      <find>OSPOT-VAE</find>
+      <find>main_ospot_vae.py</find>
+      <find>Info-VAE</find>
+      <find>br</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>main_shot_vae.py</replace>
+      <replace>M2-VAE</replace>
+      <replace>SHOT-VAE</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/main_classifier.py" />
+        <option value="$PROJECT_DIR$/main_shot_vae.py" />
+        <option value="$PROJECT_DIR$/main_M2_vae.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-16" />
+    <option name="width" value="2956" />
+    <option name="height" value="1678" />
+  </component>
   <component name="ProjectId" id="1VY77br1gFKF3DtGSS3N32UOG4P" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ICML2020-697" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ICML2020-697" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -29,6 +167,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
@@ -42,6 +181,18 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -70,8 +221,41 @@
       <workItem from="1577761700352" duration="667000" />
       <workItem from="1577774798225" duration="1148000" />
       <workItem from="1577946091239" duration="1597000" />
+      <workItem from="1581674624460" duration="5417000" />
     </task>
     <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="5417000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1293" height="733" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2497979" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Terminal" weight="0.3294702" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="File Transfer" weight="0.3294702" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3294702" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Remote Host" weight="0.32983023" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -97,5 +281,44 @@
     <state x="336" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680/2560.0.720.1240@0.0.1280.680" timestamp="1577685223132" />
     <state x="203" y="179" key="com.intellij.ide.util.TipDialog/0.0.1280.720/2560.0.720.1280@0.0.1280.720" timestamp="1577946096110" />
     <state x="2674" y="318" key="com.intellij.ide.util.TipDialog/0.0.1280.720/2560.0.720.1280@2560.0.720.1280" timestamp="1577761809169" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/one_stage/vae/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/one_stage/utils/dataloaders.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_classifier.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1380">
+          <caret line="46" column="43" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_M2_vae.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main_shot_vae.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2610">
+          <caret line="159" column="33" lean-forward="true" selection-start-line="159" selection-start-column="33" selection-end-line="159" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="150">
+            <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

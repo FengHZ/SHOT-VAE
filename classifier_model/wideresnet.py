@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import random
+import re
 
 
 class _PreProcess(nn.Sequential):
@@ -122,6 +123,22 @@ class WideResNet(nn.Module):
         avg_features = self.global_avg(features).view(batch_size, -1)
         cls_result = self.classification(avg_features)
         return cls_result
+
+
+def get_wide_resnet(name, drop_rate, input_channels=1, num_classes=10, small_input=False, data_parallel=True):
+    """
+    :param name: wideresnet-depth-width type e.g. wideresnet-28-2
+    :param drop_rate: the drop rate
+    :param num_classes : the class numbers
+    :param data_parallel:
+    :param input_channels:
+    :return: widresnet encoder
+    """
+    depth, width = re.findall(r'\d+', name)
+    depth = eval(depth)
+    width = eval(width)
+    return WideResNet(depth=depth, width=width, drop_rate=drop_rate, num_input_channels=input_channels,
+                      data_parallel=data_parallel, small_input=small_input, num_classes=num_classes)
 
 
 if __name__ == "__main__":

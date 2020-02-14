@@ -56,6 +56,39 @@ class VAECriterion(nn.Module):
         disc_kl_loss = torch.sum(torch.exp(disc_log_alpha) * (disc_log_alpha - self.disc_log_prior_param)) / batch_size
         return reconstruct_loss, continuous_kl_loss, disc_kl_loss
 
+class M1Criterion(nn.Module):
+    def __init__(self, x_sigma=1, bce_reconstruction=True):
+        super(M1Criterion, self).__init__()
+        self.x_sigma = x_sigma
+        self.bce_reconstruction = bce_reconstruction
+    def forward(self, x, x_reconstructed, M1_mean, M1_log_sigma):
+        batch_size = x.size(0)
+        if self.bce_reconstruction:
+            reconstruct_loss = F.binary_cross_entropy_with_logits(x_reconstructed, x, reduction="sum") / (batch_size)
+        else:
+            reconstruct_loss = F.mse_loss(torch.sigmoid(x_reconstructed), x, reduction="sum") / (
+                    2 * batch_size * (self.x_sigma ** 2))
+        # calculate latent space KL divergence
+        M1_mean_sq = M1_mean * M1_mean
+        M1_log_sigma_sq = 2 * M1_log_sigma
+        M1_sigma_sq = torch.exp(M1_log_sigma_sq)
+        M1_continuous_kl_loss = 0.5 * torch.sum(M1_mean_sq + M1_sigma_sq - M1_log_sigma_sq - 1) / batch_size
+        return reconstruct_loss, M1_continuous_kl_loss
+
+class M2Criterion(nn.Module):
+    def __init__(self,discrete_dim=10):
+        super(M2Criterion, self).__init__()
+        self.disc_log_prior_param = torch.log(
+            torch.tensor([1 / discrete_dim for i in range(discrete_dim)]).view(1, -1).float().cuda())
+    def forward(self, M2_mean,M2_log_sigma,disc_log_alpha):
+        batch_size = M2_mean.size(0)
+        # calculate latent space KL divergence
+        M2_mean_sq = M2_mean * M2_mean
+        M2_log_sigma_sq = 2 * M2_log_sigma
+        M2_sigma_sq = torch.exp(M2_log_sigma_sq)
+        M2_continuous_kl_loss = 0.5 * torch.sum(M2_mean_sq + M2_sigma_sq - M2_log_sigma_sq - 1) / batch_size
+        disc_kl_loss = torch.sum(torch.exp(disc_log_alpha) * (disc_log_alpha - self.disc_log_prior_param)) / batch_size
+        return M2_continuous_kl_loss, disc_kl_loss
 
 class ClsCriterion(nn.Module):
     def __init__(self):
