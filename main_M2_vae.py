@@ -208,11 +208,10 @@ def main(args=args):
         train(train_dloader_u, train_dloader_l, model=model, elbo_criterion=elbo_criterion, cls_criterion=cls_criterion,
               optimizer=optimizer, epoch=epoch,
               writer=writer, discrete_latent_dim=discrete_latent_dim)
-        elbo_valid_loss, *_ = valid(valid_dloader, model=model, elbo_criterion=elbo_criterion,
-                                    cls_criterion=cls_criterion, epoch=epoch,
+        elbo_valid_loss, *_ = valid(valid_dloader, model=model, elbo_criterion=elbo_criterion, epoch=epoch,
                                     writer=writer, discrete_latent_dim=discrete_latent_dim)
         if test_dloader is not None:
-            test(test_dloader, model=model, elbo_criterion=elbo_criterion, cls_criterion=cls_criterion, epoch=epoch,
+            test(test_dloader, model=model, elbo_criterion=elbo_criterion,epoch=epoch,
                  writer=writer, discrete_latent_dim=discrete_latent_dim)
         """
         Here we define the best point as the minimum average epoch loss
@@ -249,8 +248,8 @@ def train(train_dloader_u, train_dloader_l, model, elbo_criterion, cls_criterion
     end = time.time()
     optimizer.zero_grad()
     # mutual information
-    cmi = alpha_schedule(epoch, args.akb, args.cmi, strategy="exp")
-    dmi = alpha_schedule(epoch, args.akb, args.dmi, strategy="exp")
+    cmi = alpha_schedule(epoch, args.akb, args.cmi)
+    dmi = alpha_schedule(epoch, args.akb, args.dmi)
     # elbo part weight
     ew = alpha_schedule(epoch, args.aew, args.ewm)
     # mixup parameters

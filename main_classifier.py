@@ -15,12 +15,6 @@ from os import path
 import time
 import shutil
 import ast
-from itertools import cycle
-from collections import defaultdict
-import re
-from lib.utils.utils import get_score_label_array_from_dict
-from sklearn.metrics import roc_auc_score
-import math
 
 
 def arg_as_list(s):
@@ -147,6 +141,7 @@ def main(args=args):
         raise NotImplementedError("Dataset {} Not Implemented".format(args.dataset))
     model = get_wide_resnet(args.net_name, args.drop_rate, input_channels=input_channels, small_input=small_input,
                             data_parallel=args.dp, num_classes=num_classes)
+    model = model.cuda()
     print("Begin the {} Time's Training Semi-Supervised Classifiers, Dataset {}".format(args.train_time, args.dataset))
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=args.beta1, weight_decay=args.wd)
     scheduler = MultiStepLR(optimizer, milestones=args.adjust_lr, gamma=args.lr_decay_ratio)
