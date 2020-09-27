@@ -216,11 +216,11 @@ python main_smooth_ELBO_svhn.py -bp basepath --gpu gpuid
 
   * *MNIST*
 
-    ![mnist](./image/mnist.png)
+    ![mnist](./image/mnist.PNG)
 
   * *SVHN*
 
-    ![svhn](./image/svhn.png)
+    ![svhn](./image/svhn.PNG)
 
   * *Cifar10*
 
