@@ -7,9 +7,8 @@ With Label-aware ELBO Approximations"]().
 
 ![SHOT-VAE](./image/shot-vae.PNG)
 
-```
-The schematic of SHOT-VAE. SHOT-VAE has great advantages in interpretability by capturing semantics-disentangled latent variables as z represents the image style and y represents the image class. The smooth-ELBO proposes a more flexible assumption of p(y|X) with label-smoothing technique. The optimal interpolation performs data augmentation on the input pairs with the most similar continuous representations. The above two components break the ELBO bottleneck.
-```
+**The schematic of SHOT-VAE. SHOT-VAE has great advantages in interpretability by capturing semantics-disentangled latent variables as $\mathbf{z}$ represents the image style and $\mathbf{y}$ represents the image class. The smooth-ELBO proposes a more flexible assumption of $\hat{p}(\mathbf{y}\vert\mathbf{X})$ with label-smoothing technique. The optimal interpolation performs data augmentation on the input pairs with the most similar continuous representations. The above two components break the ELBO bottleneck.**
+
 
 # Setup
 
