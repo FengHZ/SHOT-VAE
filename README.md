@@ -1,7 +1,7 @@
-# SHOT-VAE: Semi-supervised Deep Generative Models With Label-awared ELBO Approximations
+# SHOT-VAE: Semi-supervised Deep Generative Models With Label-aware ELBO Approximations
 
 Here is the official implementation of the model `SHOT-VAE` in paper ["SHOT-VAE: Semi-supervised Deep Generative Models
-With Label-awared ELBO Approximations"]().
+With Label-aware ELBO Approximations"]().
 
 ## Model Review
 
