@@ -120,30 +120,31 @@ Here we list several important parameters **need to be set manually** in the fol
 
   * *WideResNet-28-2*
 
-  * ![Cifar10-4K-WRN-28-2](./image/Cifar10-4K-WRN-28-2.png)
+   ![Cifar10-4K-WRN-28-2](./image/Cifar10-4K-WRN-28-2.png)
 
   * *WideResNet-28-10*
 
-    ![Cifar10-4K-WRN-28-10](./image/Cifar10-4K-WRN-28-10.png)
+   ![Cifar10-4K-WRN-28-10](./image/Cifar10-4K-WRN-28-10.png)
 
 * **Cifar100 (4k)**
 	
   * *WideResNet-28-2*
 
-	  ![Cifar100-4k-WRN-28-2](./image/Cifar100-4k-WRN-28-2.png)
+   ![Cifar100-4k-WRN-28-2](./image/Cifar100-4k-WRN-28-2.png)
 	
-	* *WideResNet-28-10*
-	![Cifar100-4k-WRN-28-10](./image/Cifar100-4k-WRN-28-10.png)
+  * *WideResNet-28-10*
+
+  ![Cifar100-4k-WRN-28-10](./image/Cifar100-4k-WRN-28-10.png)
 	
 * **Cifar100 (10k)**
 
   * *WideResNet-28-2*
 
-    ![Cifar100-WRN-28-2](./image/Cifar100-10K-WRN-28-2.png)
+   ![Cifar100-WRN-28-2](./image/Cifar100-10K-WRN-28-2.png)
 
   * *WideResNet-28-10*
-
-	  ![Cifar100-WRN-28-10](./image/Cifar100-10K-WRN-28-10.png)
+  
+  ![Cifar100-WRN-28-10](./image/Cifar100-10K-WRN-28-10.png)
 
 #### M2-VAE in Cifar10 (4k) and Cifar100 (4k and 10k)
 1. For Cifar10 (4k), please use the following command
@@ -216,11 +217,11 @@ python main_smooth_ELBO_svhn.py -bp basepath --gpu gpuid
 
   * *MNIST*
 
-    ![mnist](./image/mnist.PNG)
+    ![mnist](./image/mnist.png)
 
   * *SVHN*
 
-    ![svhn](./image/svhn.PNG)
+    ![svhn](./image/svhn.png)
 
   * *Cifar10*
 
