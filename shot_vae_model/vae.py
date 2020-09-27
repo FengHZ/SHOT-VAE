@@ -137,7 +137,7 @@ class VariationalAutoEncoder(nn.Module):
                                              data_parallel=data_parallel,
                                              kernel_size=decoder_kernel_size)
 
-    def forward(self, input_img, mixup=False, disc_label=None, disc_label_mixup=None, mixup_lam=None):
+    def forward(self, input_img, mixup=False, disc_label=None, disc_pseudo_label=None, mixup_lam=None):
         batch_size = input_img.size(0)
         features = self.feature_extractor(input_img)
         avg_features = self.global_avg(features).view(batch_size, -1)
@@ -145,7 +145,7 @@ class VariationalAutoEncoder(nn.Module):
         norm_log_sigma = self.continuous_inference.log_sigma(avg_features)
         disc_log_alpha = self.disc_latent_inference(avg_features)
         latent_sample = self.sample(norm_mean=norm_mean, norm_log_sigma=norm_log_sigma, disc_log_alpha=disc_log_alpha,
-                                    disc_label=disc_label, mixup=mixup, disc_label_mixup=disc_label_mixup,
+                                    disc_label=disc_label, mixup=mixup, disc_label_mixup=disc_pseudo_label,
                                     mixup_lam=mixup_lam)
         reconstruction = self.feature_reconstructor(latent_sample)
         return reconstruction, norm_mean, norm_log_sigma, disc_log_alpha

@@ -8,7 +8,7 @@ import argparse
 from shot_vae_model.vae import VariationalAutoEncoder
 from lib.criterion import VAECriterion, ClsCriterion
 from lib.utils.avgmeter import AverageMeter
-from lib.utils.mixup import mixup_vae_data
+from lib.utils.mixup import mixup_vae_data, label_smoothing
 from lib.dataloader import cifar10_dataset, get_cifar10_ssl_sampler, cifar100_dataset, get_cifar100_ssl_sampler, \
     svhn_dataset, get_ssl_sampler
 import os
@@ -37,7 +37,7 @@ parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('-b', '--batch-size', default=768, type=int,
                     metavar='N', help='mini-batch size (default: 256)')
-# SSL VAE Train Strategy Parameters
+# SSL VAE Train PreProcess Parameter
 parser.add_argument('-t', '--train-time', default=1, type=int,
                     metavar='N', help='the x-th time of training')
 parser.add_argument('--epochs', default=600, type=int, metavar='N',
@@ -53,7 +53,7 @@ parser.add_argument('--resume', default='', type=str, metavar='PATH',
                     help='path to latest checkpoint (default: none)')
 parser.add_argument('--resume-arg', action='store_false', help='if we not resume the argument')
 parser.add_argument('--annotated-ratio', default=0.1, type=float, help='The ratio for semi-supervised annotation')
-# Deep Learning Model Parameters
+# Deep VAE Model Parameters
 parser.add_argument('--net-name', default="wideresnet-28-2", type=str, help="the name for network to use")
 parser.add_argument('--temperature', default=0.67, type=float,
                     help='centeralization parameter')
@@ -61,6 +61,7 @@ parser.add_argument('-dr', '--drop-rate', default=0, type=float, help='drop rate
 parser.add_argument("--br", "--bce-reconstruction", action='store_true', help='Do BCE Reconstruction')
 parser.add_argument("-s", "--x-sigma", default=1, type=float,
                     help="The standard variance for reconstructed images, work as regularization")
+# VAE parameters, notice we do not manually set the mutual information
 parser.add_argument('--ldc', "--latent-dim-continuous", default=128, type=int,
                     metavar='Latent Dim For Continuous Variable',
                     help='feature dimension in latent space for continuous variable')
@@ -68,7 +69,7 @@ parser.add_argument('--cmi', "--continuous-mutual-info", default=0, type=float,
                     help='The mutual information bounding between x and the continuous variable z')
 parser.add_argument('--dmi', "--discrete-mutual-info", default=0, type=float,
                     help='The mutual information bounding between x and the discrete variable z')
-# Loss Function Parameters
+# VAE Loss Function Parameters
 parser.add_argument("-ei", "--evaluate-inference", action='store_true',
                     help='Calculate the inference accuracy for unlabeled dataset')
 parser.add_argument('--kbmc', '--kl-beta-max-continuous', default=1e-3, type=float, metavar='KL Beta',
@@ -97,10 +98,9 @@ parser.add_argument('-ad', "--adjust-lr", default=[400, 500, 550], type=arg_as_l
                     help="The milestone list for adjust learning rate")
 parser.add_argument('--wd', '--weight-decay', default=5e-4, type=float)
 # Optimizer Transport Estimation Parameters
-parser.add_argument('--mas', "--mixup-alpha-supervised", default=0.1, type=float,
-                    help="the mixup alpha for labeled data")
-parser.add_argument('--mau', "--mixup-alpha-unsupervised", default=2, type=float,
-                    help="the mixup alpha for unlabeled data")
+parser.add_argument('--epsilon', default=0.1, type=float,
+                    help="the label smoothing epsilon for labeled data")
+parser.add_argument('--om', action='store_true', help="the optimal match for unlabeled data mixup")
 # GPU Parameters
 parser.add_argument("--gpu", default="0,1", type=str, metavar='GPU plans to use', help='The GPU id plans to use')
 args = parser.parse_args()
@@ -198,7 +198,7 @@ def main(args=args):
     optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=args.beta1, weight_decay=args.wd)
     scheduler = MultiStepLR(optimizer, milestones=args.adjust_lr)
     writer_log_dir = "{}/{}-SHOT-VAE/runs/train_time:{}".format(args.base_path, args.dataset,
-                                                                 args.train_time)
+                                                                args.train_time)
     if args.resume:
         if os.path.isfile(args.resume):
             print("=> loading checkpoint '{}'".format(args.resume))
@@ -227,7 +227,7 @@ def main(args=args):
               optimizer=optimizer, epoch=epoch,
               writer=writer, discrete_latent_dim=discrete_latent_dim)
         elbo_valid_loss, *_ = valid(valid_dloader, model=model, elbo_criterion=elbo_criterion,
-                                    epoch=epoch,writer=writer, discrete_latent_dim=discrete_latent_dim)
+                                    epoch=epoch, writer=writer, discrete_latent_dim=discrete_latent_dim)
         if test_dloader is not None:
             test(test_dloader, model=model, elbo_criterion=elbo_criterion, epoch=epoch,
                  writer=writer, discrete_latent_dim=discrete_latent_dim)
@@ -295,29 +295,29 @@ def train(train_dloader_u, train_dloader_l, model, elbo_criterion, cls_criterion
         elbo_loss_l = reconstruct_loss_l + prior_kl_loss_l
         # do optimal transport estimation
         with torch.no_grad():
-            mixed_image_l, mixed_z_mean_l, mixed_z_sigma_l, mixed_disc_alpha_l, label_mixup_l, lam_l = \
-                mixup_vae_data(
+            smoothed_image_l, smoothed_z_mean_l, smoothed_z_sigma_l, smoothed_disc_alpha_l, smoothed_label_l, smoothed_lambda_l = \
+                label_smoothing(
                     image_l,
                     norm_mean_l,
                     norm_log_sigma_l,
                     disc_log_alpha_l,
-                    alpha=args.mas,
+                    epsilon=args.epsilon,
                     disc_label=label_l)
-            label_mixup_onehot_l = torch.zeros(batch_size_l, discrete_latent_dim).cuda().scatter_(1,
-                                                                                                  label_mixup_l.view(
-                                                                                                      -1,
-                                                                                                      1),
-                                                                                                  1)
-        mixed_reconstruction_l, mixed_norm_mean_l, mixed_norm_log_sigma_l, mixed_disc_log_alpha_l, *_ = model(
-            mixed_image_l, mixup=True,
-            disc_label=label_l,
-            disc_label_mixup=label_mixup_l,
-            mixup_lam=lam_l)
-        disc_posterior_kl_loss_l = lam_l * cls_criterion(mixed_disc_log_alpha_l, label_onehot_l) + (
-                1 - lam_l) * cls_criterion(
-            mixed_disc_log_alpha_l, label_mixup_onehot_l)
-        continuous_posterior_kl_loss_l = (F.mse_loss(mixed_norm_mean_l, mixed_z_mean_l, reduction="sum") + \
-                                          F.mse_loss(torch.exp(mixed_norm_log_sigma_l), mixed_z_sigma_l,
+            smoothed_label_onehot_l = torch.zeros(batch_size_l, discrete_latent_dim).cuda().scatter_(1,
+                                                                                                     smoothed_label_l.view(
+                                                                                                         -1,
+                                                                                                         1),
+                                                                                                     1)
+        smoothed_reconstruction_l, smoothed_norm_mean_l, smoothed_norm_log_sigma_l, smoothed_disc_log_alpha_l, *_ = model(
+            smoothed_image_l, True,
+            label_l,
+            smoothed_label_l,
+            smoothed_lambda_l)
+        disc_posterior_kl_loss_l = smoothed_lambda_l * cls_criterion(smoothed_disc_log_alpha_l, label_onehot_l) + (
+                1 - smoothed_lambda_l) * cls_criterion(
+            smoothed_disc_log_alpha_l, smoothed_label_onehot_l)
+        continuous_posterior_kl_loss_l = (F.mse_loss(smoothed_norm_mean_l, smoothed_z_mean_l, reduction="sum") + \
+                                          F.mse_loss(torch.exp(smoothed_norm_log_sigma_l), smoothed_z_sigma_l,
                                                      reduction="sum")) / batch_size_l
         elbo_loss_l = elbo_loss_l + kl_beta_c * pwm * continuous_posterior_kl_loss_l
         loss_supervised = ew * elbo_loss_l + disc_posterior_kl_loss_l
@@ -333,7 +333,7 @@ def train(train_dloader_u, train_dloader_l, model, elbo_criterion, cls_criterion
                                                                                             1 - 0.001 - 0.001 / (
                                                                                                     discrete_latent_dim - 1))
             label_smooth_u = label_smooth_u + torch.ones(label_smooth_u.size()).cuda() * 0.001 / (
-                        discrete_latent_dim - 1)
+                    discrete_latent_dim - 1)
             disc_alpha_u = torch.exp(disc_log_alpha_u)
             inference_kl = disc_alpha_u * disc_log_alpha_u - disc_alpha_u * torch.log(label_smooth_u)
         kl_inferences.update(float(torch.sum(inference_kl) / batch_size_u), batch_size_u)
@@ -352,7 +352,7 @@ def train(train_dloader_u, train_dloader_l, model, elbo_criterion, cls_criterion
                     norm_mean_u,
                     norm_log_sigma_u,
                     disc_log_alpha_u,
-                    alpha=args.mau)
+                    optimal_match=args.om)
         mixed_reconstruction_u, mixed_norm_mean_u, mixed_norm_log_sigma_u, mixed_disc_log_alpha_u, *_ = model(
             mixed_image_u)
         disc_posterior_kl_loss_u = cls_criterion(mixed_disc_log_alpha_u, mixed_disc_alpha_u)
@@ -396,7 +396,7 @@ def save_checkpoint(state, filename='checkpoint.pth.tar', best_predict=False):
     :return:
     """
     filefolder = '{}/{}-SHOT-VAE/parameter/train_time_{}'.format(args.base_path, args.dataset,
-                                                                  state["args"].train_time)
+                                                                 state["args"].train_time)
     if not path.exists(filefolder):
         os.makedirs(filefolder)
     if best_predict:
@@ -432,7 +432,7 @@ def valid(valid_dloader, model, elbo_criterion, epoch, writer, discrete_latent_d
         all_label.append(label_onehot)
         continuous_kl_losses.update(float(continuous_kl_loss.item()), batch_size)
         discrete_kl_losses.update(float(discrete_kl_loss.item()), batch_size)
-        elbo_losses.update(float(mse_loss + 0.01*(continuous_kl_loss + discrete_kl_loss)), image.size(0))
+        elbo_losses.update(float(mse_loss + 0.01 * (continuous_kl_loss + discrete_kl_loss)), image.size(0))
 
     writer.add_scalar(tag="Valid/KL(q(z|X)||p(z))", scalar_value=continuous_kl_losses.avg, global_step=epoch + 1)
     writer.add_scalar(tag="Valid/KL(q(y|X)||p(y))", scalar_value=discrete_kl_losses.avg, global_step=epoch + 1)
@@ -484,7 +484,7 @@ def test(test_dloader, model, elbo_criterion, epoch, writer, discrete_latent_dim
         all_label.append(label_onehot)
         continuous_kl_losses.update(float(continuous_kl_loss.item()), batch_size)
         discrete_kl_losses.update(float(discrete_kl_loss.item()), batch_size)
-        elbo_losses.update(float(mse_loss + 0.01*(continuous_kl_loss + discrete_kl_loss)), image.size(0))
+        elbo_losses.update(float(mse_loss + 0.01 * (continuous_kl_loss + discrete_kl_loss)), image.size(0))
 
     writer.add_scalar(tag="Test/KL(q(z|X)||p(z))", scalar_value=continuous_kl_losses.avg, global_step=epoch + 1)
     writer.add_scalar(tag="Test/KL(q(y|X)||p(y))", scalar_value=discrete_kl_losses.avg, global_step=epoch + 1)

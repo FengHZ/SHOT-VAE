@@ -5,13 +5,7 @@ With Label-aware ELBO Approximations"]().
 
 ## Model Review
 
-* **Smooth-ELBO**
-
-	![smooth-elbo](./image/smooth-ELBO.PNG)
-
-* **Optimal Interpolation**
-
-	![OT](./image/optimal-interpolation.PNG)
+![SHOT-VAE](./image/shot-vae.PNG)
 
 # Setup
 
