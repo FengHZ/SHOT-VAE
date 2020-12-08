@@ -1,7 +1,7 @@
 # SHOT-VAE: Semi-supervised Deep Generative Models With Label-aware ELBO Approximations
 
 Here is the official implementation of the model `SHOT-VAE` in paper ["SHOT-VAE: Semi-supervised Deep Generative Models
-With Label-aware ELBO Approximations"]().
+With Label-aware ELBO Approximations"](https://arxiv.org/abs/2011.10684).
 
 ## Model Review
 
@@ -211,23 +211,26 @@ python main_smooth_ELBO_svhn.py -bp basepath --gpu gpuid
 ```
 
 
-### Generative Performance [Table.5]
+## References
 
-* **Generated Examples of SHOT-VAE**
+If you find this useful in your work please consider citing:
 
-  * *MNIST*
-
-    ![mnist](./image/mnist.png)
-
-  * *SVHN*
-
-    ![svhn](./image/svhn.png)
-
-  * *Cifar10*
-
-    ![cifar10_ssl](./image/cifar10_ssl.png)
-
-  * *Cifar100*
-
-    ![cifar100_ssl](./image/cifar100_ssl.png)
+```
+@article{DBLP:journals/corr/abs-2011-10684,
+  author    = {Haozhe Feng and
+               Kezhi Kong and
+               Minghao Chen and
+               Tianye Zhang and
+               Minfeng Zhu and
+               Wei Chen},
+  title     = {{SHOT-VAE:} Semi-supervised Deep Generative Models With Label-aware
+               {ELBO} Approximations},
+  journal   = {CoRR},
+  volume    = {abs/2011.10684},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2011.10684},
+  archivePrefix = {arXiv},
+  eprint    = {2011.10684}
+}
+```
 
