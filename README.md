@@ -178,27 +178,27 @@ Here we list several important parameters **need to be set manually** in the fol
 
    ```shell
    # for wideresnet-28-2
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid
+   python main_classifier.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid
    # for wideresnet-28-10
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid 
+   python main_classifier.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid 
    ```
 
 2. For Cifar100 (4k), please use the following command
 
    ```shell
    # for wideresnet-28-2
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
+   python main_classifier.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
    # for wideresnet-28-10
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
+   python main_classifier.py -bp basepath --net-name wideresnet-28-10 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.1 
    ```
 
 3. For Cifar100 (10k), please use the following command
 
    ```shell
    # for wideresnet-28-2
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
+   python main_classifier.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
    # for wideresnet-28-10
-   python main_classifier_vae.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
+   python main_classifier.py -bp basepath --net-name wideresnet-28-2 --gpu gpuid --dataset "Cifar100" --annotated-ratio 0.25
    ```
 #### Smooth-ELBO VAE in MNIST (100) and SVHN (1k) [Table.1]
 Use the following commands to reproduce our results
