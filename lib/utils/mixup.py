@@ -14,7 +14,8 @@ def mixup_vae_data(image, z_mean, z_log_sigma, disc_log_alpha, optimal_match=Tru
                 for j in range(batch_size):
                     kl_metric[i, j] = gaussian_kl_divergence_calculation(z_mean[i, ...], z_log_sigma[i, ...],
                                                                          z_mean[j, ...], z_log_sigma[j, ...])
-        index = torch.argmin(kl_metric, dim=1)
+        _,index = torch.topk(kl_metric,2,largest=False)
+        index = index[:,1]
     else:
         # use random permutation to provide match index
         index = torch.randperm(batch_size).cuda()
