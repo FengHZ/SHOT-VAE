@@ -2,7 +2,7 @@ import numpy as np
 import torch
 
 
-def mixup_vae_data(image, z_mean, z_log_sigma, disc_log_alpha, optimal_match=True):
+def mixup_vae_data(image, z_mean, z_log_sigma, disc_log_alpha, optimal_match=F):
     '''Returns mixed inputs, pairs of targets, and lambda'''
     lam = np.random.beta(2.0, 2.0)
     batch_size = image.size()[0]
